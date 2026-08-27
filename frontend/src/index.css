@@ -1,0 +1,246 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   BENTO-SLEEK DESIGN SYSTEM - SOLID COLOR THEME TOKENS (NO GRADIENTS)
+   ========================================================================== */
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    --bg-base: #0a0e17;
+    --surface-card: #131b2e;
+    --surface-card-hover: #1e293b;
+    --surface-border: rgba(255, 255, 255, 0.08);
+    --surface-border-accent: rgba(20, 184, 166, 0.35);
+
+    --text-main: #f8fafc;
+    --text-primary: #f8fafc;
+    --text-sub: #94a3b8;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+
+    --brand-primary: #0f766e;
+    --brand-accent: #14b8a6;
+    --brand-glow: rgba(20, 184, 166, 0.25);
+    
+    --accent-gold: #f59e0b;
+    --accent-emerald: #10b981;
+
+    --card-shadow: rgba(0, 0, 0, 0.2);
+    --card-shadow-hover: rgba(0, 0, 0, 0.4);
+
+    --selection-bg: rgba(20, 184, 166, 0.4);
+    --selection-text: #ffffff;
+  }
+
+  .light-theme {
+    color-scheme: light;
+    --bg-base: #f8fafc;
+    --surface-card: #ffffff;
+    --surface-card-hover: #f1f5f9;
+    --surface-border: #e2e8f0;
+    --surface-border-accent: rgba(15, 118, 110, 0.35);
+
+    /* WCAG AA High Contrast (Contrast > 4.5:1 on #FFFFFF) */
+    --text-main: #0f172a;
+    --text-primary: #0f172a;
+    --text-sub: #334155;
+    --text-secondary: #334155;
+    --text-muted: #475569;
+
+    --brand-primary: #0f766e;
+    --brand-accent: #0d9488;
+    --brand-glow: rgba(15, 118, 110, 0.15);
+
+    --accent-gold: #b45309;
+    --accent-emerald: #047857;
+
+    --card-shadow: rgba(15, 23, 42, 0.04);
+    --card-shadow-hover: rgba(15, 23, 42, 0.08);
+
+    --selection-bg: rgba(15, 118, 110, 0.2);
+    --selection-text: #0f172a;
+  }
+
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+  }
+
+  body {
+    background-color: var(--bg-base);
+    color: var(--text-main);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  .font-mono-numbers {
+    font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  body::selection {
+    background: var(--selection-bg);
+    color: var(--selection-text);
+  }
+}
+
+/* ==========================================================================
+   SEMANTIC THEME UTILITIES (SOLID COLORS ONLY - NO GRADIENTS)
+   ========================================================================== */
+
+.bento-card {
+  background-color: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px 0 var(--card-shadow);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bento-card:hover {
+  background-color: var(--surface-card-hover);
+  border-color: var(--surface-border-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px var(--card-shadow-hover);
+}
+
+.bento-card-static {
+  background-color: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px 0 var(--card-shadow);
+}
+
+.glass-panel {
+  background-color: var(--surface-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--surface-border);
+}
+
+.theme-input {
+  background-color: var(--bg-base);
+  color: var(--text-main);
+  border: 1px solid var(--surface-border);
+  border-radius: 0.75rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.theme-input:focus {
+  outline: none;
+  border-color: var(--brand-accent);
+  box-shadow: 0 0 0 3px var(--brand-glow);
+}
+
+.theme-text-main {
+  color: var(--text-main);
+}
+
+.theme-text-sub {
+  color: var(--text-sub);
+}
+
+.theme-text-muted {
+  color: var(--text-muted);
+}
+
+.theme-text-accent {
+  color: var(--brand-accent);
+}
+
+.theme-border {
+  border-color: var(--surface-border);
+}
+
+.theme-badge-primary {
+  background-color: rgba(15, 118, 110, 0.12);
+  color: var(--brand-accent);
+  border: 1px solid rgba(15, 118, 110, 0.25);
+}
+
+.theme-badge-amber {
+  background-color: rgba(180, 83, 9, 0.12);
+  color: var(--accent-gold);
+  border: 1px solid rgba(180, 83, 9, 0.25);
+}
+
+.theme-badge-emerald {
+  background-color: rgba(4, 120, 87, 0.12);
+  color: var(--accent-emerald);
+  border: 1px solid rgba(4, 120, 87, 0.25);
+}
+
+.theme-btn-secondary {
+  background-color: var(--surface-card);
+  color: var(--text-main);
+  border: 1px solid var(--surface-border);
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px 0 var(--card-shadow);
+}
+
+.theme-btn-secondary:hover {
+  background-color: var(--surface-card-hover);
+  border-color: var(--surface-border-accent);
+}
+
+.gradient-text {
+  color: var(--brand-accent);
+}
+
+.gradient-btn {
+  background-color: var(--brand-primary);
+  color: #ffffff !important;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px 0 var(--brand-glow);
+  transition: all 0.2s ease-in-out;
+}
+
+.gradient-btn:hover {
+  background-color: var(--brand-accent);
+  box-shadow: 0 4px 14px 0 var(--brand-glow);
+  transform: translateY(-1px);
+}
+
+.gradient-btn:active {
+  transform: scale(0.98);
+}
+
+.glow-teal {
+  box-shadow: 0 0 24px -4px var(--brand-glow);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface-border);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand-accent);
+  outline-offset: 2px;
+}
