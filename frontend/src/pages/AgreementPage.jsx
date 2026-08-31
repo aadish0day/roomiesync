@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   FileText, Download, CheckCircle2, ShieldCheck, UserCheck, Plus, 
   Trash2, ArrowRight, Clock, Sparkles, Calendar, DollarSign, Eye, 
-  Edit3, Check, Users, Home, AlertCircle, Shield 
+  Edit3, Check, Users, Home, AlertCircle, Shield, X
 } from 'lucide-react';
 import { apiService } from '../services/api';
 import { downloadAgreementPDF } from '../services/pdfGenerator';
@@ -215,7 +215,9 @@ export default function AgreementPage({ currentUser }) {
           <span className="flex items-center gap-2 font-mono-numbers">
             <CheckCircle2 className="w-4 h-4 text-[var(--accent-emerald)]" /> {downloadNotice}
           </span>
-          <button onClick={() => setDownloadNotice(null)} className="text-xs font-extrabold transition-transform duration-200 hover:scale-110 active:scale-90">✕</button>
+          <button onClick={() => setDownloadNotice(null)} className="p-1 transition-transform duration-200 hover:scale-110 active:scale-90" aria-label="Close">
+            <X className="w-4 h-4" />
+          </button>
         </div>
       )}
 
@@ -298,8 +300,9 @@ export default function AgreementPage({ currentUser }) {
                       <p className="font-bold theme-text-main text-sm">
                         {Array.isArray(agr.houseRules) ? agr.houseRules.length : 5} Active House Rules Clauses
                       </p>
-                      <span className="theme-badge-emerald px-2 py-0.5 rounded text-[10px] font-bold inline-block mt-1">
-                        ✓ Both Parties Signed
+                      <span className="theme-badge-emerald px-2 py-0.5 rounded text-[10px] font-bold inline-flex items-center gap-1 mt-1">
+                        <CheckCircle2 className="w-3 h-3" />
+                        <span>Both Parties Signed</span>
                       </span>
                     </div>
                   </div>
@@ -471,7 +474,7 @@ export default function AgreementPage({ currentUser }) {
                             ? 'bg-[var(--brand-accent)] text-white border-[var(--brand-accent)]' 
                             : 'border-[var(--surface-border)]'
                         }`}>
-                          {isActive && '✓'}
+                          {isActive && <Check className="w-3.5 h-3.5 text-white" />}
                         </div>
                       </div>
                     );
@@ -483,14 +486,21 @@ export default function AgreementPage({ currentUser }) {
                   <span className="font-bold theme-text-main block">Custom Rules & Additional Clauses</span>
                   <div className="space-y-2">
                     {Array.isArray(customRules) && customRules.map((rule, idx) => (
-                      <div key={idx} className="flex items-center justify-between bento-card-static p-3 rounded-xl">
-                        <span className="theme-text-sub">{rule}</span>
-                        <button 
-                          type="button" 
-                          onClick={() => handleRemoveCustomRule(idx)} 
-                          className="theme-text-muted hover:text-rose-500 dark:hover:text-rose-400 p-1 transition-all duration-200 active:scale-95"
+                      <div key={idx} className="flex items-center gap-2">
+                        <input
+                          type="text"
+                          value={rule}
+                          onChange={(e) => handleCustomRuleChange(idx, e.target.value)}
+                          placeholder="e.g. Quiet hours after 11 PM on weekdays"
+                          className="flex-1 theme-input p-2.5 text-xs outline-none focus:border-[var(--brand-accent)]"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveCustomRule(idx)}
+                          className="p-2.5 rounded-xl text-rose-500 hover:bg-rose-500/10 border border-rose-500/20 transition-all duration-200 hover:-translate-y-0.5 active:scale-95"
+                          title="Delete clause"
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     ))}
@@ -513,9 +523,10 @@ export default function AgreementPage({ currentUser }) {
                     <button 
                       type="button" 
                       onClick={handleAddCustomRule} 
-                      className="px-4 py-3 theme-btn-secondary text-xs font-bold whitespace-nowrap transition-all duration-200 hover:-translate-y-0.5 active:scale-95"
+                      className="px-4 py-3 theme-btn-secondary text-xs font-bold whitespace-nowrap transition-all duration-200 hover:-translate-y-0.5 active:scale-95 flex items-center gap-1.5"
                     >
-                      + Add Clause
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Add Clause</span>
                     </button>
                   </div>
                 </div>
@@ -612,13 +623,19 @@ export default function AgreementPage({ currentUser }) {
                   <div className="bento-card p-2 rounded-xl border-dashed">
                     <span className="text-[10px] theme-text-muted block">Signed by Tenant 1</span>
                     <span className="font-bold theme-text-accent text-[11px] block">{r1Name || 'Tenant 1'}</span>
-                    <span className="text-[9px] theme-badge-emerald px-1.5 py-0.5 rounded inline-block mt-1">✓ Verified</span>
+                    <span className="text-[9px] theme-badge-emerald px-1.5 py-0.5 rounded inline-flex items-center gap-1 mt-1">
+                      <Check className="w-2.5 h-2.5" />
+                      <span>Verified</span>
+                    </span>
                   </div>
 
                   <div className="bento-card p-2 rounded-xl border-dashed">
                     <span className="text-[10px] theme-text-muted block">Signed by Tenant 2</span>
                     <span className="font-bold theme-text-accent text-[11px] block">{r2Name || 'Tenant 2'}</span>
-                    <span className="text-[9px] theme-badge-emerald px-1.5 py-0.5 rounded inline-block mt-1">✓ Verified</span>
+                    <span className="text-[9px] theme-badge-emerald px-1.5 py-0.5 rounded inline-flex items-center gap-1 mt-1">
+                      <Check className="w-2.5 h-2.5" />
+                      <span>Verified</span>
+                    </span>
                   </div>
                 </div>
 

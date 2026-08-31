@@ -450,7 +450,10 @@ export default function MealPlansPage({ currentUser }) {
             {subSuccess ? (
               <div className="p-6 rounded-2xl theme-badge-emerald text-center space-y-2 animate-in fade-in duration-200">
                 <CheckCircle2 className="w-10 h-10 text-[var(--accent-emerald)] mx-auto" />
-                <h4 className="text-lg font-bold theme-text-main font-display">Subscription Activated! 🎉</h4>
+                <h4 className="text-lg font-bold theme-text-main font-display flex items-center justify-center gap-2">
+                  <span>Subscription Activated!</span>
+                  <Sparkles className="w-5 h-5 text-[var(--accent-gold)]" />
+                </h4>
                 <p className="text-xs theme-text-sub">
                   Your <span className="font-bold text-[var(--accent-emerald)]">{subDuration}</span> plan starts on <span className="font-bold font-mono-numbers">{startDate}</span>. Daily fresh thalis will be delivered during {deliverySlot}.
                 </p>

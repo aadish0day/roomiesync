@@ -161,8 +161,9 @@ export default function DashboardPage({ currentUser, onNavigate }) {
               <span className="text-xs font-semibold theme-text-accent uppercase tracking-widest">Co-Living Hub</span>
               <span className="theme-badge-emerald text-[10px] font-bold px-2 py-0.5 rounded-md">Online</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold theme-text-main font-display tracking-tight">
-              Welcome back, {currentUser?.name ? currentUser.name.split(' ')[0] : 'User'} 👋
+            <h1 className="text-2xl sm:text-3xl font-extrabold theme-text-main font-display tracking-tight flex items-center gap-2">
+              <span>Welcome back, {currentUser?.name ? currentUser.name.split(' ')[0] : 'User'}</span>
+              <Sparkles className="w-5 h-5 text-[var(--accent-gold)] shrink-0 inline" />
             </h1>
             <p className="theme-text-sub text-xs mt-1">
               {userProfile?.occupation || 'Not specified'} • Preferred: <span className="theme-text-main font-semibold">{userProfile?.preferredLocation || 'Not specified'}</span>
@@ -297,9 +298,16 @@ export default function DashboardPage({ currentUser, onNavigate }) {
                 {activeSubPlan ? activeSubPlan.providerName : 'No Active Plan'}
               </span>
             </div>
-            <p className="text-xs text-[var(--accent-emerald)] font-semibold mt-1">
-              {activeSub ? `✓ Active ${activeSub.duration} Plan` : 'Explore thali plans'}
-            </p>
+            <div className="text-xs text-[var(--accent-emerald)] font-semibold mt-1 flex items-center gap-1">
+              {activeSub ? (
+                <>
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[var(--accent-emerald)] shrink-0" />
+                  <span>Active {activeSub.duration} Plan</span>
+                </>
+              ) : (
+                <span>Explore thali plans</span>
+              )}
+            </div>
           </div>
           <div className="mt-4 pt-3 border-t border-[var(--surface-border)] flex items-center justify-between text-[11px] theme-text-accent font-semibold">
             <span>Weekly Thali Menu</span>

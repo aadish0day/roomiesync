@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Home, MapPin, Search, Filter, Plus, Calendar, ShieldCheck, Phone, X, Eye, Users, RefreshCw, CheckCircle2, Building, Sparkles, ShieldAlert } from 'lucide-react';
+import { Home, MapPin, Search, Filter, Plus, Check, Calendar, ShieldCheck, Phone, X, Eye, Users, RefreshCw, CheckCircle2, Building, Sparkles, ShieldAlert } from 'lucide-react';
 import { apiService } from '../services/api';
 
 const DATA_PROPERTY_FALLBACK = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='250' viewBox='0 0 24 24' fill='%231f2937' stroke='%239ca3af' stroke-width='1.5'><rect width='100%' height='100%' fill='%23374151'/><path d='m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/><polyline points='9 22 9 12 15 12 15 22'/></svg>";
@@ -841,11 +841,12 @@ export default function PropertiesPage({ currentUser }) {
                         key={amenity}
                         type="button"
                         onClick={() => handleToggleAmenity(amenity)}
-                        className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all duration-200 hover:-translate-y-0.5 active:scale-95 ${
+                        className={`px-2.5 py-1 rounded-lg text-[11px] font-medium flex items-center gap-1 transition-all duration-200 hover:-translate-y-0.5 active:scale-95 ${
                           isSelected ? 'theme-badge-primary border-[var(--brand-accent)]' : 'bento-card-static theme-text-muted hover:theme-text-sub'
                         }`}
                       >
-                        {isSelected ? '✓ ' : '+ '}{amenity}
+                        {isSelected ? <Check className="w-3 h-3 text-[var(--brand-accent)]" /> : <Plus className="w-3 h-3 text-slate-400" />}
+                        <span>{amenity}</span>
                       </button>
                     );
                   })}

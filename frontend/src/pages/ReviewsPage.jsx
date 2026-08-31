@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Star, ShieldAlert, ThumbsUp, MessageSquare, Plus, CheckCircle2, 
   User, Home, Utensils, Filter, Search, Award, Sparkles, Flag, 
-  ShieldCheck, Building, Check, ArrowUpDown 
+  ShieldCheck, Building, Check, ArrowUpDown, X
 } from 'lucide-react';
 import { apiService } from '../services/api';
 import { sanitizeInput } from '../utils/sanitizer';
@@ -242,8 +242,17 @@ export default function ReviewsPage({ currentUser }) {
               <span className="text-3xl font-extrabold theme-text-main font-mono-numbers">{avgRating}</span>
               <span className="text-xs text-amber-500 dark:text-amber-400 font-bold font-mono-numbers">/ 5.0</span>
             </div>
-            <div className="flex items-center gap-1 text-amber-500 dark:text-amber-400 text-xs mt-1">
-              {'★'.repeat(Math.min(5, Math.max(1, Math.round(Number(avgRating) || 5))))}
+            <div className="flex items-center gap-0.5 mt-1">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star
+                  key={i}
+                  className={`w-3.5 h-3.5 ${
+                    i < Math.min(5, Math.max(1, Math.round(Number(avgRating) || 5)))
+                      ? 'text-amber-400 fill-amber-400'
+                      : 'text-slate-500/30'
+                  }`}
+                />
+              ))}
             </div>
           </div>
           <div className="p-3 rounded-2xl bg-amber-500/15 text-amber-600 dark:text-amber-400">
@@ -397,9 +406,18 @@ export default function ReviewsPage({ currentUser }) {
                       <span>Target: <span className="theme-text-main font-bold">{rev.targetName || 'Community Member'}</span></span>
                     </span>
 
-                    <div className="flex items-center gap-1 text-amber-500 dark:text-amber-400 font-mono-numbers font-bold">
-                      {'★'.repeat(numRating)}
-                      <span className="text-xs theme-text-main ml-0.5">({numRating}.0)</span>
+                    <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-0.5">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`w-3 h-3 ${
+                              i < numRating ? 'text-amber-400 fill-amber-400' : 'text-slate-500/30'
+                            }`}
+                          />
+                        ))}
+                      </div>
+                      <span className="text-xs theme-text-main ml-0.5 font-mono-numbers font-bold">({numRating}.0)</span>
                     </div>
                   </div>
 
@@ -441,9 +459,10 @@ export default function ReviewsPage({ currentUser }) {
           <div className="max-w-md w-full glass-panel p-6 sm:p-8 rounded-3xl border border-[var(--surface-border-accent)] shadow-2xl relative space-y-6 max-h-[90vh] overflow-y-auto">
             <button 
               onClick={closeWriteModal} 
-              className="absolute top-5 right-5 theme-text-muted hover:theme-text-main text-lg font-bold p-1 transition-all duration-200 hover:scale-110 active:scale-90"
+              className="absolute top-5 right-5 theme-text-muted hover:theme-text-main p-1 transition-all duration-200 hover:scale-110 active:scale-90"
+              aria-label="Close"
             >
-              ✕
+              <X className="w-5 h-5" />
             </button>
 
             <div>
@@ -487,11 +506,9 @@ export default function ReviewsPage({ currentUser }) {
                         key={star}
                         onClick={() => setRating(star)}
                         onMouseEnter={() => setHoverRating(star)}
-                        className={`text-2xl transition-all duration-200 hover:scale-125 active:scale-90 ${
-                          star <= activeDisplayRating ? 'text-amber-500 dark:text-amber-400' : 'theme-text-muted opacity-40'
-                        }`}
+                        className="p-1 transition-all duration-200 hover:scale-125 active:scale-90"
                       >
-                        ★
+                        <Star className={`w-6 h-6 ${star <= activeDisplayRating ? 'text-amber-400 fill-amber-400' : 'text-slate-500/40'}`} />
                       </button>
                     ))}
                   </div>
@@ -539,9 +556,10 @@ export default function ReviewsPage({ currentUser }) {
           <div className="max-w-md w-full glass-panel p-6 sm:p-8 rounded-3xl border border-rose-500/40 shadow-2xl relative space-y-6 max-h-[90vh] overflow-y-auto">
             <button 
               onClick={resetReportModal} 
-              className="absolute top-5 right-5 theme-text-muted hover:theme-text-main text-lg font-bold p-1 transition-all duration-200 hover:scale-110 active:scale-90"
+              className="absolute top-5 right-5 theme-text-muted hover:theme-text-main p-1 transition-all duration-200 hover:scale-110 active:scale-90"
+              aria-label="Close"
             >
-              ✕
+              <X className="w-5 h-5" />
             </button>
 
             <div>

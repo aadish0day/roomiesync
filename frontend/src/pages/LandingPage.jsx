@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   ShieldCheck, Home, Users, BookOpen, Sparkles, ArrowRight, 
-  CheckCircle2, Star, Zap, Building2, Utensils, CreditCard, FileText, ChevronRight
+  CheckCircle2, Star, Zap, Building2, Utensils, CreditCard, FileText, ChevronRight, Leaf, Sun
 } from 'lucide-react';
 
 const DATA_AVATAR_FALLBACK = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='%231f2937' stroke='%239ca3af' stroke-width='1.5'><rect width='100%' height='100%' fill='%23374151'/><circle cx='12' cy='8' r='4'/><path d='M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2'/></svg>";
@@ -181,11 +181,13 @@ export default function LandingPage({ onNavigate }) {
                   </div>
 
                   <div className="grid grid-cols-2 gap-2 text-[11px]">
-                    <div className="theme-badge-primary p-2.5 rounded-xl font-medium transition-transform duration-200 hover:scale-102">
-                      🥗 Vegetarian Only
+                    <div className="theme-badge-primary p-2.5 rounded-xl font-medium transition-transform duration-200 hover:scale-102 flex items-center gap-1.5">
+                      <Leaf className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                      <span>Vegetarian Only</span>
                     </div>
-                    <div className="theme-badge-amber p-2.5 rounded-xl font-medium transition-transform duration-200 hover:scale-102">
-                      🌅 Early Bird (10 PM)
+                    <div className="theme-badge-amber p-2.5 rounded-xl font-medium transition-transform duration-200 hover:scale-102 flex items-center gap-1.5">
+                      <Sun className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                      <span>Early Bird (10 PM)</span>
                     </div>
                   </div>
                 </div>

@@ -304,9 +304,20 @@ export default function ProfilePage({ user, onProfileUpdated }) {
                   <label className="font-semibold theme-text-sub">
                     Cleanliness Expectations Level
                   </label>
-                  <span className="font-bold text-[var(--accent-gold)] font-mono-numbers flex items-center gap-1">
-                    <span>{cleanliness} / 5 Stars</span>
-                    <span>({'⭐'.repeat(cleanStarCount)})</span>
+                  <span className="font-bold text-[var(--accent-gold)] font-mono-numbers flex items-center gap-1.5">
+                    <span>{cleanliness} / 5</span>
+                    <div className="flex items-center gap-0.5">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <Star
+                          key={i}
+                          className={`w-3 h-3 ${
+                            i < cleanStarCount
+                              ? 'text-amber-400 fill-amber-400'
+                              : 'text-slate-500/30'
+                          }`}
+                        />
+                      ))}
+                    </div>
                   </span>
                 </div>
 

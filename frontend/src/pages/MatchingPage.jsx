@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Sparkles, Filter, CheckCircle, XCircle, Send, Eye, ShieldCheck, 
-  Heart, UserCheck, Flame, Search, MapPin, DollarSign, Utensils, Moon, Briefcase, Smile, CheckCircle2, Clock 
+  Heart, UserCheck, Flame, Search, MapPin, DollarSign, Utensils, Moon, Briefcase, Smile, CheckCircle2, Clock, Star, X, Check
 } from 'lucide-react';
 import { apiService } from '../services/api';
 import { calculateCompatibility } from '../services/matchingEngine';
@@ -225,8 +225,15 @@ export default function MatchingPage({ currentUser }) {
                     </button>
                   </div>
                 ) : (
-                  <span className={`text-xs font-bold px-3 py-1 rounded-full ${req?.status === 'accepted' ? 'theme-badge-emerald' : 'theme-badge-amber'}`}>
-                    {req?.status === 'accepted' ? 'Match Accepted 🎉' : 'Request Declined'}
+                  <span className={`text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5 ${req?.status === 'accepted' ? 'theme-badge-emerald' : 'theme-badge-amber'}`}>
+                    {req?.status === 'accepted' ? (
+                      <>
+                        <Sparkles className="w-3.5 h-3.5" />
+                        <span>Match Accepted</span>
+                      </>
+                    ) : (
+                      <span>Request Declined</span>
+                    )}
                   </span>
                 )}
               </div>
@@ -372,9 +379,10 @@ export default function MatchingPage({ currentUser }) {
           <div className="max-w-md w-full glass-panel p-6 sm:p-8 rounded-3xl border border-[var(--surface-border-accent)] shadow-2xl relative animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setSelectedCandidate(null)}
-              className="absolute top-4 right-4 theme-text-muted hover:theme-text-main text-lg font-bold transition-all duration-200 hover:-translate-y-0.5 active:scale-95"
+              className="absolute top-4 right-4 theme-text-muted hover:theme-text-main p-1 transition-all duration-200 hover:-translate-y-0.5 active:scale-95"
+              aria-label="Close"
             >
-              ✕
+              <X className="w-5 h-5" />
             </button>
 
             <div className="flex items-center gap-4 mb-6">
@@ -438,9 +446,18 @@ export default function MatchingPage({ currentUser }) {
               <div className="bento-card-static p-3 rounded-xl space-y-1">
                 <div className="flex justify-between items-center font-semibold">
                   <span className="theme-text-sub">Cleanliness Rating (15% Weight)</span>
-                  <span className="text-[var(--accent-gold)] font-mono-numbers">
-                    {'⭐'.repeat(Math.max(1, Math.min(5, Number(selectedCandidate.profile?.cleanliness) || 4)))}
-                  </span>
+                  <div className="flex items-center gap-0.5">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star
+                        key={i}
+                        className={`w-3 h-3 ${
+                          i < Math.max(1, Math.min(5, Number(selectedCandidate.profile?.cleanliness) || 4))
+                            ? 'text-amber-400 fill-amber-400'
+                            : 'text-slate-500/30'
+                        }`}
+                      />
+                    ))}
+                  </div>
                 </div>
                 <div className="w-full h-1.5 bento-card-static rounded-full overflow-hidden">
                   <div className="h-full bg-[var(--accent-gold)] w-[80%]"></div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { 
   CreditCard, Plus, DollarSign, CheckCircle2, PieChart, ArrowUpRight, 
   ArrowDownLeft, Trash2, Filter, Search, Users, TrendingUp, Sparkles, 
-  Clock, AlertCircle, Receipt, ShieldCheck, Check, RefreshCw 
+  Clock, AlertCircle, Receipt, ShieldCheck, Check, RefreshCw, X
 } from 'lucide-react';
 import { apiService } from '../services/api';
 
@@ -609,9 +609,10 @@ export default function ExpenseTrackerPage({ currentUser }) {
           <div className="max-w-lg w-full glass-panel p-6 sm:p-8 rounded-3xl border border-[var(--surface-border-accent)] shadow-2xl relative space-y-6 max-h-[90vh] overflow-y-auto">
             <button 
               onClick={closeAddExpenseModal} 
-              className="absolute top-5 right-5 theme-text-muted hover:theme-text-main text-lg font-bold p-1 transition-all duration-200 hover:scale-110 active:scale-90"
+              className="absolute top-5 right-5 theme-text-muted hover:theme-text-main p-1 transition-all duration-200 hover:scale-110 active:scale-90"
+              aria-label="Close"
             >
-              ✕
+              <X className="w-5 h-5" />
             </button>
 
             <div>

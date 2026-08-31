@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  LayoutDashboard, Users, Building2, Utensils, AlertTriangle, ShieldCheck, CheckCircle2, Ban, Eye, Search, DollarSign, Activity, Trash2, RefreshCw, UserCheck
+  LayoutDashboard, Users, Building2, Utensils, AlertTriangle, ShieldCheck, CheckCircle2, Check, Ban, Eye, Search, DollarSign, Activity, Trash2, RefreshCw, UserCheck
 } from 'lucide-react';
 import { apiService } from '../services/api';
 
@@ -326,8 +326,9 @@ export default function AdminDashboardPage({ currentUser, onNavigate }) {
             <span className="text-3xl sm:text-4xl font-extrabold theme-text-main font-mono-numbers block tracking-tight">
               {usersList.length || stats.totalUsers || 0}
             </span>
-            <span className="text-[11px] text-[var(--accent-emerald)] font-bold block mt-1">
-              ✓ Active Profiles in DB
+            <span className="text-[11px] text-[var(--accent-emerald)] font-bold flex items-center gap-1 mt-1">
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              <span>Active Profiles in DB</span>
             </span>
           </div>
         </div>
@@ -486,7 +487,10 @@ export default function AdminDashboardPage({ currentUser, onNavigate }) {
                         <div className="flex items-center gap-2">
                           <h4 className="font-bold theme-text-main text-sm font-display">{u.name || 'User Account'}</h4>
                           {u.isVerified && (
-                            <span className="theme-badge-emerald px-1.5 py-0.2 rounded text-[9px] font-bold">✓ Verified</span>
+                            <span className="theme-badge-emerald px-1.5 py-0.5 rounded text-[9px] font-bold flex items-center gap-1">
+                              <Check className="w-2.5 h-2.5" />
+                              <span>Verified</span>
+                            </span>
                           )}
                         </div>
                         <p className="theme-text-sub text-xs">
@@ -502,7 +506,14 @@ export default function AdminDashboardPage({ currentUser, onNavigate }) {
                           u.isVerified ? 'theme-badge-emerald' : 'theme-btn-secondary'
                         }`}
                       >
-                        {u.isVerified ? '✓ Verified' : 'Verify Account'}
+                        {u.isVerified ? (
+                          <span className="flex items-center gap-1">
+                            <Check className="w-3 h-3" />
+                            <span>Verified</span>
+                          </span>
+                        ) : (
+                          'Verify Account'
+                        )}
                       </button>
 
                       <button
@@ -577,7 +588,14 @@ export default function AdminDashboardPage({ currentUser, onNavigate }) {
                           isVerified ? 'theme-badge-emerald' : 'theme-btn-secondary'
                         }`}
                       >
-                        {isVerified ? '✓ Verified Listing' : 'Verify Listing'}
+                        {isVerified ? (
+                          <span className="flex items-center gap-1">
+                            <Check className="w-3 h-3" />
+                            <span>Verified Listing</span>
+                          </span>
+                        ) : (
+                          'Verify Listing'
+                        )}
                       </button>
                       <button
                         onClick={() => handleRemoveProperty(propId)}
