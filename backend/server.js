@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 import { connectDB } from './config/db.js';
 import { initialData } from './seed/seedData.js';
 
@@ -55,6 +56,7 @@ const normalizeDoc = (doc) => {
   const rawId = obj.id || obj._id;
   const idStr = rawId ? rawId.toString() : '';
   const mongoIdStr = obj._id ? obj._id.toString() : idStr;
+  delete obj.password; // Do not expose password hashes or plaintext
   return {
     ...obj,
     id: idStr || mongoIdStr,
@@ -132,7 +134,18 @@ app.post('/api/auth/login', async (req, res) => {
       user = memoryStore.users.find(u => u.email === email);
     }
 
-    if (!user || user.password !== password) {
+    if (!user || !user.password) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    let isPasswordMatch = false;
+    if (typeof user.password === 'string' && (user.password.startsWith('$2a$') || user.password.startsWith('$2b$'))) {
+      isPasswordMatch = await bcrypt.compare(password, user.password);
+    } else {
+      isPasswordMatch = (user.password === password);
+    }
+
+    if (!isPasswordMatch) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
@@ -192,15 +205,18 @@ app.post('/api/auth/register', async (req, res) => {
     }
 
     const userId = `usr_${Date.now()}`;
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
     let newUser = null;
     let newProfile = null;
 
     try {
       newUser = await User.create({
         id: userId,
-        name,
-        email,
-        password,
+        name: name.trim(),
+        email: email.trim().toLowerCase(),
+        password: hashedPassword,
         role: role || 'user'
       });
       newProfile = await Profile.create({
@@ -464,6 +480,62 @@ app.get('/api/properties/owner/:ownerId', async (req, res) => {
     console.error('Error in GET /api/properties/owner/:ownerId:', err);
     const props = (memoryStore.properties || []).filter(p => p.ownerId === req.params.ownerId || p.userId === req.params.ownerId || (!p.ownerId && req.params.ownerId === 'usr_landlord'));
     return res.json(normalizeDocs(props));
+  }
+});
+
+app.put('/api/properties/:id/verify', async (req, res) => {
+  try {
+    const propertyId = req.params.id;
+    const { status } = req.body || {};
+    const newStatus = status || 'verified';
+    let updatedProp = null;
+
+    try {
+      updatedProp = await Property.findOneAndUpdate(
+        buildIdQuery(propertyId, 'id'),
+        { $set: { status: newStatus } },
+        { new: true }
+      );
+    } catch (dbErr) {
+      console.warn('DB update property verify failed:', dbErr.message);
+    }
+
+    if (!memoryStore.properties) memoryStore.properties = [];
+    const memIdx = memoryStore.properties.findIndex(p => p.id === propertyId || p._id === propertyId);
+    if (memIdx !== -1) {
+      memoryStore.properties[memIdx].status = newStatus;
+      if (!updatedProp) updatedProp = memoryStore.properties[memIdx];
+    }
+
+    if (!updatedProp) {
+      return res.status(404).json({ error: 'Property not found' });
+    }
+
+    return res.json({ message: 'Property status updated successfully', property: normalizeDoc(updatedProp) });
+  } catch (err) {
+    console.error('Error in PUT /api/properties/:id/verify:', err);
+    return res.status(500).json({ error: err.message || 'Failed to update property status' });
+  }
+});
+
+app.delete('/api/properties/:id', async (req, res) => {
+  try {
+    const propertyId = req.params.id;
+
+    try {
+      await Property.deleteOne(buildIdQuery(propertyId, 'id'));
+    } catch (dbErr) {
+      console.warn('DB delete property failed:', dbErr.message);
+    }
+
+    if (memoryStore.properties) {
+      memoryStore.properties = memoryStore.properties.filter(p => p.id !== propertyId && p._id !== propertyId);
+    }
+
+    return res.json({ message: 'Property listing removed successfully', id: propertyId });
+  } catch (err) {
+    console.error('Error in DELETE /api/properties/:id:', err);
+    return res.status(500).json({ error: err.message || 'Failed to remove property' });
   }
 });
 

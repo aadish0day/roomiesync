@@ -4,7 +4,7 @@ import {
 } from 'lucide-react';
 import { apiService } from '../services/api';
 
-export default function AuthPage({ onLoginSuccess, onReturnHome }) {
+export default function AuthPage({ onLoginSuccess, onReturnHome, adminNotice = false }) {
   const [isRegister, setIsRegister] = useState(false);
   const [showForgot, setShowForgot] = useState(false);
   const [name, setName] = useState('');
@@ -12,7 +12,7 @@ export default function AuthPage({ onLoginSuccess, onReturnHome }) {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('user');
   const [error, setError] = useState('');
-  const [successMsg, setSuccessMsg] = useState('');
+  const [successMsg, setSuccessMsg] = useState(adminNotice ? 'Admin authentication required. Please sign in with an Administrator account.' : '');
   const [isLoading, setIsLoading] = useState(false);
 
   const isMounted = useRef(true);
@@ -208,9 +208,9 @@ export default function AuthPage({ onLoginSuccess, onReturnHome }) {
     setEmail(acc.email);
     setName(acc.label);
     setRole(acc.roleId);
-    setPassword('password123');
+    setPassword('');
     setError('');
-    setSuccessMsg(`Selected demo profile: ${acc.label} (${acc.subText})`);
+    setSuccessMsg(`Selected account: ${acc.label} (${acc.subText}). Enter password to continue.`);
   };
 
   return (

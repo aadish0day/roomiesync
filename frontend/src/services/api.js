@@ -80,6 +80,16 @@ export const apiService = {
     return response.data;
   },
 
+  deleteProperty: async (propertyId) => {
+    const response = await api.delete(`/properties/${propertyId}`);
+    return response.data;
+  },
+
+  toggleVerifyProperty: async (propertyId, status) => {
+    const response = await api.put(`/properties/${propertyId}/verify`, { status });
+    return response.data;
+  },
+
   bookProperty: async (propertyId, userId, date) => {
     const response = await api.post('/properties/book', { propertyId, userId, date });
     return response.data;

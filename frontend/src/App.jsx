@@ -431,10 +431,11 @@ export default function App() {
       {/* Main View Area */}
       <main className="flex-1">
         {!currentUser ? (
-          activeModule === 'auth' ? (
+          activeModule === 'auth' || activeModule === 'admin' ? (
             <AuthPage
               onLoginSuccess={handleLoginSuccess}
               onReturnHome={() => navigateTo('landing')}
+              adminNotice={activeModule === 'admin'}
             />
           ) : (
             <LandingPage onNavigate={navigateTo} />
@@ -462,7 +463,7 @@ export default function App() {
         ) : activeModule === 'owner' ? (
           <OwnerPanelPage currentUser={currentUser} />
         ) : activeModule === 'admin' ? (
-          <AdminDashboardPage />
+          <AdminDashboardPage currentUser={currentUser} onNavigate={navigateTo} />
         ) : null}
       </main>
 
